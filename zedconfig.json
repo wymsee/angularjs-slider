@@ -1,0 +1,21 @@
+{
+    "preferences": {
+        "wordWrap": true,
+        "useSoftTabs": false,
+        "tabSize": 3,
+        "gotoExclude": ["/framework/*", "/.elasticbeanstalk/*", "/assets/*", "/backstage/bower_components/*", "/backstage/framework/*", "/backstagedb/*", "/protected/scripts/node_modules/*"]
+    },
+    "modes": {
+        "javascript": {
+            "commands": {
+                "Tools:Check": {
+                    "options": {
+                        "globals": {
+                            "angular": true
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
