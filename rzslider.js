@@ -353,12 +353,12 @@ function throttle(func, wait, options) {
 			for (var i = 0; i < markers.length; i++) {
 				var marker = markers[i];
 				var elem = angular.element('#marker' + marker.id);
-				if (elem.length) {
-					var offset = this.valueToOffset(marker.value);
-					this.setLeft(elem, offset);
-				} else {
+				if (!elem.length) {
 					this.sliderElem.append('<span id="marker' + marker.id + '" class="rz-pointer"></span>');
+					elem = angular.element('#marker' + marker.id);
 				}
+				var offset = this.valueToOffset(marker.value);
+				this.setLeft(elem, offset);
 			}
 		},
 
