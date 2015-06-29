@@ -53,7 +53,7 @@ rzslider span.rz-bar.rz-selection {
 
 rzslider span.rz-pointer {
   top: -14px;
-  z-index: 3;
+  z-index: 2;
   width: 32px;
   height: 32px;
   cursor: pointer;
@@ -64,15 +64,27 @@ rzslider span.rz-pointer {
 }
 
 rzslider span.rz-marker {
-  top: -14px;
-  z-index: 2;
-  width: 16px;
-  height: 32px;
+  top: -6px;
+  z-index: 3;
+  width: 8px;
+  height: 16px;
   cursor: pointer;
-  background-color: #0db9f0;
+  background-color: #aaaaaa;
   -webkit-border-radius: 16px;
      -moz-border-radius: 16px;
           border-radius: 16px;
+}
+
+rzslider span.rz-marker-green {
+  background-color: #008000;
+}
+
+rzslider span.rz-marker-red {
+  background-color: #ff0000;
+}
+
+rzslider span.rz-marker-yellow {
+  background-color: #ffff00;
 }
 
 rzslider span.rz-pointer:after {

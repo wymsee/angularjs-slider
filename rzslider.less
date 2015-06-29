@@ -20,14 +20,18 @@
  @limitLabelTextColor: @labelTextColor;
  @barFillColor: @handleBgColor;
  @barNormalColor: #d8e0f3;
+ @markerGray: #AAA;
+ @markerGreen: green;
+ @markerRed: red;
+ @markerYellow: yellow;
 
 /* Slider size parameters */
  @handleSize: 32px;
  @handlePointerSize: 8px;
  @bubblePadding: 1px 3px;
  @barHeight: 4px;
- @markerHeight: 32px;
- @markerWidth: 16px;
+ @markerHeight: 16px;
+ @markerWidth: 8px;
  rzslider {
 	display: inline-block;
 	position: relative;
@@ -65,7 +69,7 @@ rzslider span.rz-pointer {
 	height: @handleSize;
 	top: -@handleSize/2 + @barHeight/2;
 	background-color: @handleBgColor;
-	z-index: 3;
+	z-index: 2;
 	.rounded(@handleSize/2);
 	// -webkit-transition:all linear 0.15s;
 	// -moz-transition:all linear 0.15s;
@@ -78,9 +82,21 @@ rzslider span.rz-marker {
 	width: @markerWidth;
 	height: @markerHeight;
 	top: -@markerHeight/2 + @barHeight/2;
-	background-color: @handleBgColor;
-	z-index: 2;
+	background-color: @markerGray;
+	z-index: 3;
 	.rounded(@handleSize/2);
+}
+
+rzslider span.rz-marker-green {
+	background-color: @markerGreen;
+}
+
+rzslider span.rz-marker-red {
+	background-color: @markerRed;
+}
+
+rzslider span.rz-marker-yellow {
+	background-color: @markerYellow;
 }
 
 rzslider span.rz-pointer:after {

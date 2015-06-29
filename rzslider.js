@@ -350,15 +350,23 @@ function throttle(func, wait, options) {
 		
 		updateMarkers: function() {
 			var markers = this.scope.rzSliderMarkers;
+			angular.element('span.rz-marker').remove();
+			var self = this;
 			for (var i = 0; i < markers.length; i++) {
 				var marker = markers[i];
+				var classes = "rz-marker " + marker.classes;
+				self.sliderElem.append('<span id="marker' + marker.id + '" class="' + classes + '"></span>');
 				var elem = angular.element('#marker' + marker.id);
-				if (!elem.length) {
-					this.sliderElem.append('<span id="marker' + marker.id + '" class="rz-marker"></span>');
-					elem = angular.element('#marker' + marker.id);
-				}
 				var offset = this.valueToOffset(marker.value);
-				this.setLeft(elem, offset);
+				this.setLeft(elem, offset, true);
+				(function(value, offset) {
+					elem.on('click', function() {
+						self.scope.rzSliderModel = value;
+						self.updateHandles('rzSliderModel', offset);
+						self.scope.$apply();
+						self.scope.$emit('slideEnded');
+					});
+				})(marker.value, offset);
 			}
 		},
 
@@ -556,6 +564,7 @@ function throttle(func, wait, options) {
 			if (this.initHasRun) {
 				this.updateCeilLab();
 				this.initHandles();
+				this.updateMarkers();
 			}
 		},
 
@@ -627,9 +636,9 @@ function throttle(func, wait, options) {
 				return;
 			}
 
-			this.setLeft(this.minH, newOffset);
+			this.setLeft(this.minH, newOffset, true);
 			this.translateFn(this.scope.rzSliderModel, this.minLab);
-			this.setLeft(this.minLab, newOffset - this.minLab.rzsw / 2 + this.handleHalfWidth);
+			this.setLeft(this.minLab, newOffset, true);
 
 			this.shFloorCeil();
 		},
@@ -778,7 +787,10 @@ function throttle(func, wait, options) {
 		 * @param {number} left
 		 * @returns {number}
 		 */
-		setLeft: function(elem, left) {
+		setLeft: function(elem, left, center) {
+			if (typeof center !== 'undefined') {
+				left = left - this.getWidth(elem)/2;
+			}
 			elem.rzsl = left;
 			elem.css({
 				left: left + 'px'
