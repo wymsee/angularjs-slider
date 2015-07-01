@@ -76,15 +76,15 @@ rzslider span.rz-marker {
 }
 
 rzslider span.rz-marker-green {
-  background-color: #008000;
+  background-color: #5ccc52;
 }
 
 rzslider span.rz-marker-red {
-  background-color: #ff0000;
+  background-color: #cc5454;
 }
 
 rzslider span.rz-marker-yellow {
-  background-color: #ffff00;
+  background-color: #c3c752;
 }
 
 rzslider span.rz-pointer:after {

@@ -334,9 +334,9 @@ function throttle(func, wait, options) {
 			});
 			this.deRegFuncs.push(unRegFn);
 			
-			this.scope.$watchCollection('rzSliderMarkers', function() {
+			this.scope.$watch('rzSliderMarkers', function() {
 				self.updateMarkers();
-			});
+			}, true);
 
 			this.scope.$on('$destroy', function() {
 				self.minH.off();
