@@ -87,6 +87,10 @@ rzslider span.rz-marker-yellow {
   background-color: #c3c752;
 }
 
+rzslider span.rz-marker-blue {
+  background-color: #5bc0de;
+}
+
 rzslider span.rz-pointer:after {
   position: absolute;
   top: 12px;
