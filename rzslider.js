@@ -348,25 +348,62 @@ function throttle(func, wait, options) {
 			});
 		},
 		
-		updateMarkers: function() {
-			var markers = this.scope.rzSliderMarkers;
-			angular.element('span.rz-marker').remove();
+		updateMarkers: function(markers, oldMarkers) {
+			// angular.element('span.rz-marker').remove();
+			var i, j, marker, oldMarker, found, elem, classes, offset;
 			var self = this;
-			for (var i = 0; i < markers.length; i++) {
-				var marker = markers[i];
-				var classes = "rz-marker " + marker.classes;
-				self.sliderElem.append('<span id="marker' + marker.id + '" class="' + classes + '"></span>');
-				var elem = angular.element('#marker' + marker.id);
-				var offset = this.valueToOffset(marker.value);
-				this.setLeft(elem, offset, true);
-				(function(value, offset) {
-					elem.on('click', function() {
-						self.scope.rzSliderModel = value;
-						self.updateHandles('rzSliderModel', offset);
-						self.scope.$apply();
-						self.scope.$emit('slideEnded');
-					});
-				})(marker.value, offset);
+			for (i = 0; i < markers.length; i++) {
+				marker = markers[i];
+				
+				for (j = 0; j < oldMarkers.length; j++) {
+					oldMarker = oldMarkers[j];
+					
+					found = false;
+					if (marker.id === oldMarker.id) {
+						found = true;
+						if (marker.value !== oldMarker.value) {
+							elem = angular.element('#marker' + marker.id);
+							offset = this.valueToOffset(marker.value);
+							this.setLeft(elem, offset, true);
+						}
+						break;
+					}
+				}
+				
+				if (!found) {
+					classes = "rz-marker " + marker.classes;
+					self.sliderElem.append('<span id="marker' + marker.id + '" class="' + classes + '"></span>');
+					elem = angular.element('#marker' + marker.id);
+					offset = this.valueToOffset(marker.value);
+					this.setLeft(elem, offset, true);
+					(function(value, offset) {
+						elem.on('click', function() {
+							self.scope.rzSliderModel = value;
+							self.updateHandles('rzSliderModel', offset);
+							self.scope.$apply();
+							self.scope.$emit('slideEnded');
+						});
+					})(marker.value, offset);
+				}
+			}
+			
+			for (i = 0; i < oldMarkers.length; i++) {
+				oldMarker = oldMarkers[i];
+				
+				for (j = 0; j < markers.length; j++) {
+					marker = markers[j];
+					
+					found = false;
+					if (oldMarker.id === marker.id) {
+						found = true;
+						break;
+					}
+				}
+				
+				if (!found) {
+					elem = angular.element('#marker' + oldMarker.id);
+					elem.remove();
+				}
 			}
 		},
 
