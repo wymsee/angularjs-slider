@@ -334,8 +334,8 @@ function throttle(func, wait, options) {
 			});
 			this.deRegFuncs.push(unRegFn);
 			
-			this.scope.$watch('rzSliderMarkers', function() {
-				self.updateMarkers();
+			this.scope.$watch('rzSliderMarkers', function(sliderMarkers, oldSliderMarkers) {
+				self.updateMarkers(sliderMarkers, oldSliderMarkers);
 			}, true);
 
 			this.scope.$on('$destroy', function() {
@@ -349,28 +349,17 @@ function throttle(func, wait, options) {
 		},
 		
 		updateMarkers: function(markers, oldMarkers) {
-			// angular.element('span.rz-marker').remove();
 			var i, j, marker, oldMarker, found, elem, classes, offset;
 			var self = this;
 			for (i = 0; i < markers.length; i++) {
 				marker = markers[i];
 				
-				for (j = 0; j < oldMarkers.length; j++) {
-					oldMarker = oldMarkers[j];
-					
-					found = false;
-					if (marker.id === oldMarker.id) {
-						found = true;
-						if (marker.value !== oldMarker.value) {
-							elem = angular.element('#marker' + marker.id);
-							offset = this.valueToOffset(marker.value);
-							this.setLeft(elem, offset, true);
-						}
-						break;
-					}
-				}
-				
-				if (!found) {
+				found = false;
+				elem = angular.element('#marker' + marker.id);
+				if (elem.length) {
+					offset = this.valueToOffset(marker.value);
+					this.setLeft(elem, offset, true);
+				} else {
 					classes = "rz-marker " + marker.classes;
 					self.sliderElem.append('<span id="marker' + marker.id + '" class="' + classes + '"></span>');
 					elem = angular.element('#marker' + marker.id);
@@ -387,22 +376,24 @@ function throttle(func, wait, options) {
 				}
 			}
 			
-			for (i = 0; i < oldMarkers.length; i++) {
-				oldMarker = oldMarkers[i];
-				
-				for (j = 0; j < markers.length; j++) {
-					marker = markers[j];
+			if (typeof oldMarkers !== 'undefined') {
+				for (i = 0; i < oldMarkers.length; i++) {
+					oldMarker = oldMarkers[i];
 					
 					found = false;
-					if (oldMarker.id === marker.id) {
-						found = true;
-						break;
+					for (j = 0; j < markers.length; j++) {
+						marker = markers[j];
+						
+						if (oldMarker.id === marker.id) {
+							found = true;
+							break;
+						}
 					}
-				}
-				
-				if (!found) {
-					elem = angular.element('#marker' + oldMarker.id);
-					elem.remove();
+					
+					if (!found) {
+						elem = angular.element('#marker' + oldMarker.id);
+						elem.remove();
+					}
 				}
 			}
 		},
@@ -601,7 +592,7 @@ function throttle(func, wait, options) {
 			if (this.initHasRun) {
 				this.updateCeilLab();
 				this.initHandles();
-				this.updateMarkers();
+				this.updateMarkers(this.rzSliderMarkers);
 			}
 		},
 
