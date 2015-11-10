@@ -248,6 +248,7 @@ function throttle(func, wait, options) {
 
 			this.precision = this.scope.rzSliderPrecision === undefined ? 0 : +this.scope.rzSliderPrecision;
 			this.step = this.scope.rzSliderStep === undefined ? 1 : +this.scope.rzSliderStep;
+			this.rzSliderMarkers = [];
 
 			$timeout(function() {
 				self.updateCeilLab();
